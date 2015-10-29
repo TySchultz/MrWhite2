@@ -1,0 +1,4 @@
+platform :tvos, '9.0'
+use_frameworks!
+pod 'Realm', git: 'https://github.com/realm/realm-cocoa', branch: 'kk-tvos'
+pod 'RealmSwift', git: 'https://github.com/realm/realm-cocoa', branch: 'kk-tvos'

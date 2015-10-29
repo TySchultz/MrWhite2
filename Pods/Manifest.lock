@@ -1,1 +1,32 @@
+PODS:
+  - Realm (0.96.1):
+    - Realm/Headers (= 0.96.1)
+  - Realm/Headers (0.96.1)
+  - RealmSwift (0.96.1):
+    - Realm (= 0.96.1)
+
+DEPENDENCIES:
+  - Realm (from `https://github.com/realm/realm-cocoa`, branch `kk-tvos`)
+  - RealmSwift (from `https://github.com/realm/realm-cocoa`, branch `kk-tvos`)
+
+EXTERNAL SOURCES:
+  Realm:
+    :branch: kk-tvos
+    :git: https://github.com/realm/realm-cocoa
+  RealmSwift:
+    :branch: kk-tvos
+    :git: https://github.com/realm/realm-cocoa
+
+CHECKOUT OPTIONS:
+  Realm:
+    :commit: 241b1bea2d028f62d58e28607398d0382ceb4ebd
+    :git: https://github.com/realm/realm-cocoa
+  RealmSwift:
+    :commit: 241b1bea2d028f62d58e28607398d0382ceb4ebd
+    :git: https://github.com/realm/realm-cocoa
+
+SPEC CHECKSUMS:
+  Realm: 3fe5e16f57d1327d031ac3c903552c69aea1d319
+  RealmSwift: 111e271999c183ea70dc8b42bf9c7cbea134cd3e
+
 COCOAPODS: 0.39.0

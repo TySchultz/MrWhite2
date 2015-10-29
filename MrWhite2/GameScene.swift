@@ -7,6 +7,7 @@
 //
 
 import SpriteKit
+import RealmSwift
 
 class GameScene: SKScene, UIGestureRecognizerDelegate, SKPhysicsContactDelegate {
     
@@ -34,6 +35,8 @@ class GameScene: SKScene, UIGestureRecognizerDelegate, SKPhysicsContactDelegate 
     
     var jumping = false
     var level2 = false
+    var playingGame = true
+    
     
     var jumps :Int = 2
 
@@ -421,16 +424,22 @@ class GameScene: SKScene, UIGestureRecognizerDelegate, SKPhysicsContactDelegate 
             }
 
         
-            if tri.position.y < -1000 {
+            if tri.position.y < -1000  {
                 tri.alpha = 0.0
                 let fade = SKAction.fadeAlphaBy(1.0, duration: 2.0)
                 tri.position = CGPoint(x: resetXPosition, y: 250)
                 tri.physicsBody?.velocity = CGVectorMake(0, 0)
                 tri.runAction(fade)
                 
-                lives++
+                lives--
                 let livesLabel = childNodeWithName("levelLabel") as! SKLabelNode
                 livesLabel.text = "Lives: \(lives)"
+                
+                if lives == 0 && playingGame{
+                    self.parentController.dismissView(self.currentTime,alive: false)
+                    timer.invalidate()
+                    playingGame = false
+                }
 
             }
             
@@ -674,7 +683,23 @@ class GameScene: SKScene, UIGestureRecognizerDelegate, SKPhysicsContactDelegate 
             circleScoreLabel.text = "\(circleScore)"
             
             if circleScore == 0 {
-                self.parentController.dismissViewControllerAnimated(true, completion: nil)
+                playingGame = false
+                self.parentController.dismissView(self.currentTime,alive:true)
+                timer.invalidate()
+//                self.parentController.dismissViewControllerAnimated(true, completion: { () -> Void in
+//                    
+//                    let realm = try? Realm()
+//                    
+//                    //Creates a new course
+//                    let newScore = Score()
+//                    newScore.initials = "JTS"
+//                    newScore.time = self.currentTime
+//                    
+//                    try! realm?.write {
+//                        realm?.add(newScore)
+//                    }
+//
+//                })
             }
             
         }else{

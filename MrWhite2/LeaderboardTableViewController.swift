@@ -7,9 +7,12 @@
 //
 
 import UIKit
+import RealmSwift
 
 class LeaderboardTableViewController: UITableViewController {
 
+    
+    var topScores : NSMutableArray!
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -18,6 +21,16 @@ class LeaderboardTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        
+        topScores = []
+        
+        print(Realm.Configuration.defaultConfiguration)
+        let realm = try! Realm()
+        let scores = realm.objects(Score).sorted("time")
+        for score in scores{
+            topScores.addObject(score)
+        }
+        tableView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
@@ -34,19 +47,40 @@ class LeaderboardTableViewController: UITableViewController {
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 5
+        return topScores.count
     }
 
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath)
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> LeaderBoardCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! LeaderBoardCell
 
+        let score = topScores.objectAtIndex(indexPath.row) as! Score
+        cell.time.text = timeText(score.time)
+        cell.initials.text = score.initials
+        cell.rank.text = "#\(indexPath.row+1)"
         // Configure the cell...
 
         return cell
     }
 
-
+    func timeText (time : Int) -> String {
+        if time < 10 {
+            return  "0:0\(time)"
+        }else if time < 60 {
+            return "0:\(time)"
+        }else if time < 600 {
+            let tmp = time % 60
+            let minutes = Int(floor(Double(time) / 60.0))
+            if tmp < 10 {
+                return "\(minutes):0\(tmp)"
+            }else if tmp < 60 {
+                return "\(minutes):\(tmp)"
+            }
+        }else{
+            return "\(time)"
+        }
+        return "0:00"
+    }
     /*
     // Override to support conditional editing of the table view.
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
