@@ -1,7 +1,5 @@
-# MrWhite2
-tvOS game similar to hit the targets in super smash bros. Built to teach myself tvOS and spriteKit. 
 
-# Screenshots 
+# QuickView 
 ![Alt text](./success.gif?raw=true "success.gif")
 
 ![Alt text](./failure.gif?raw=true "failure.gif")
